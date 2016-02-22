@@ -44,7 +44,7 @@ namespace AsyncDolls
         {
             try
             {
-                await AvoidAsyncVoid();
+                AvoidAsyncVoid();
 
             }
             catch (InvalidOperationException e)
@@ -55,7 +55,7 @@ namespace AsyncDolls
             await Task.Delay(100);
         }
 
-        static async Task AvoidAsyncVoid()
+        static async void AvoidAsyncVoid()
         {
             Console.WriteLine("Going inside async void.");
             await Task.Delay(10);
