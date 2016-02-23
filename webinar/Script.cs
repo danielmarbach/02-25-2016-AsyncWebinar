@@ -40,30 +40,6 @@ namespace AsyncDolls
         }
 
         [Test]
-        public async Task AsyncVoid()
-        {
-            try
-            {
-                AvoidAsyncVoid();
-
-            }
-            catch (InvalidOperationException e)
-            {
-                // where is the exception?
-                Console.WriteLine(e);
-            }
-            await Task.Delay(100);
-        }
-
-        static async void AvoidAsyncVoid()
-        {
-            Console.WriteLine("Going inside async void.");
-            await Task.Delay(10);
-            Console.WriteLine("Going to throw soon");
-            throw new InvalidOperationException("Gotcha!");
-        }
-
-        [Test]
         public async Task SequentialVsConcurrent()
         {
             var sequential = Enumerable.Range(0, 4).Select(t => Task.Delay(2500));
@@ -79,6 +55,29 @@ namespace AsyncDolls
             var concurrent = Enumerable.Range(0, 4).Select(t => Task.Delay(2500));
             await Task.WhenAll(concurrent);
             Console.WriteLine(DateTime.Now + " : Done concurrent.");
+        }
+
+        [Test]
+        public async Task AsyncVoid()
+        {
+            try
+            {
+                AvoidAsyncVoid();
+
+            }
+            catch (InvalidOperationException e)
+            {
+                Console.WriteLine(e);
+            }
+            await Task.Delay(100);
+        }
+
+        static async void AvoidAsyncVoid()
+        {
+            Console.WriteLine("Going inside async void.");
+            await Task.Delay(10);
+            Console.WriteLine("Going to throw soon");
+            throw new InvalidOperationException("Gotcha!");
         }
 
         [Test]
@@ -105,44 +104,6 @@ namespace AsyncDolls
         {
             await Task.Delay(milliseconds);
         }
-
-
-        [Test]
-        // Release mode and dotPeek
-        public async Task ShortcutTheStatemachine()
-        {
-            await DoesNotShortcut();
-
-            await DoesShortcut();
-        }
-
-        private static async Task DoesNotShortcut()
-        {
-            await Task.Delay(1);
-        }
-
-        private static Task DoesShortcut()
-        {
-            return Task.Delay(1);
-        }
-
-        /*
-
-        private static Task DoesNotShortcut()
-        {
-          AsyncScript.\u003CDoesNotShortcut\u003Ed__12 stateMachine;
-          stateMachine.\u003C\u003Et__builder = AsyncTaskMethodBuilder.Create();
-          stateMachine.\u003C\u003E1__state = -1;
-          stateMachine.\u003C\u003Et__builder.Start<AsyncScript.\u003CDoesNotShortcut\u003Ed__12>(ref stateMachine);
-          return stateMachine.\u003C\u003Et__builder.Task;
-        }
-
-        private static Task DoesShortcut()
-        {
-          return Task.Delay(1);
-        }
-        
-        */
 
     }
 

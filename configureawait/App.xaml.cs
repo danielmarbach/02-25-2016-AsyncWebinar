@@ -14,7 +14,8 @@ namespace configureawait
         protected override async void OnStartup(StartupEventArgs e)
         {
             MessageBox.Show("Attach Debugger", "Attach Debugger", MessageBoxButton.OK);
-            Debugger.Launch();
+            
+            Debugger.Break();
 
             Debug.WriteLine(SynchronizationContext.Current != null ? "Before AsyncMethod with context and ConfigureAwait(true)" : "Before AsyncMethod without context and ConfigureAwait(true)");
 
