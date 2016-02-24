@@ -13,13 +13,13 @@ namespace AsyncDolls
     public class AsyncScript
     {
         [Test]
-        public async Task AsyncRecap()
+        public async Task CPUBound()
         {
             Parallel.For(0, 1000, CpuBoundMethod);
-            await Task.Run(() => CpuBoundMethod(10));
+            Parallel.ForEach(Enumerable.Range(1000, 2000), CpuBoundMethod);
 
-            // Asynchronous
-            await IoBoundMethod(".\\IoBoundMethod.txt");
+            await Task.Run(() => CpuBoundMethod(2001));
+            await Task.Factory.StartNew(() => CpuBoundMethod(2002));
         }
 
         static void CpuBoundMethod(int i)
@@ -27,12 +27,18 @@ namespace AsyncDolls
             Console.WriteLine(i);
         }
 
-        static async Task IoBoundMethod(string path)
+        [Test]
+        public async Task IOBound()
         {
-            using (var stream = new FileStream(path, FileMode.OpenOrCreate))
+            await IoBoundMethod();
+        }
+
+        static async Task IoBoundMethod()
+        {
+            using (var stream = new FileStream(".\\IoBoundMethod.txt", FileMode.OpenOrCreate))
             using (var writer = new StreamWriter(stream))
             {
-                await writer.WriteLineAsync("Yehaa " + DateTime.Now);
+                await writer.WriteLineAsync("42");
                 writer.Close();
                 stream.Close();
             }
@@ -43,21 +49,13 @@ namespace AsyncDolls
         {
             var sequential = Enumerable.Range(0, 4).Select(t => Task.Delay(2500));
 
-            Console.WriteLine(DateTime.Now + " : Starting sequential.");
-
             foreach (var task in sequential)
             {
                 await task;
             }
 
-            Console.WriteLine(DateTime.Now + " : Done sequential.");
-
-            Console.WriteLine(DateTime.Now + " : Starting concurrent.");
-
             var concurrent = Enumerable.Range(0, 4).Select(t => Task.Delay(2500));
             await Task.WhenAll(concurrent);
-
-            Console.WriteLine(DateTime.Now + " : Done concurrent.");
         }
 
         [Test]

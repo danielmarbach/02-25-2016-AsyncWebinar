@@ -17,22 +17,22 @@ namespace configureawait
             
             Debugger.Break();
 
-            Debug.WriteLine(SynchronizationContext.Current != null ? "Before AsyncMethod with context and ConfigureAwait(true)" : "Before AsyncMethod without context and ConfigureAwait(true)");
+            Debug.WriteLine(SynchronizationContext.Current != null ? "not null" : "null");
 
             await AsyncMethod();
 
-            Debug.WriteLine(SynchronizationContext.Current != null ? "After AsyncMethod with context and ConfigureAwait(true)" : "After AsyncMethod without context and ConfigureAwait(true)");
+            Debug.WriteLine(SynchronizationContext.Current != null ? "not null" : "null");
 
             await AsyncMethod().ConfigureAwait(false);
 
-            Debug.WriteLine(SynchronizationContext.Current != null ? "After AsyncMethod with context and ConfigureAwait(false)" : "After AsyncMethod without context and ConfigureAwait(false)");
+            Debug.WriteLine(SynchronizationContext.Current != null ? "not null" : "null");
         }
 
         static async Task AsyncMethod()
         {
-            Debug.WriteLine(SynchronizationContext.Current != null ? "Before Task.Delay with context and ConfigureAwait(false)" : "Before Task.Delay without context and ConfigureAwait(false)");
+            Debug.WriteLine(SynchronizationContext.Current != null ? "not null" : "null");
             await Task.Delay(100).ConfigureAwait(false);
-            Debug.WriteLine(SynchronizationContext.Current != null ? "Before Task.Delay with context and ConfigureAwait(true)" : "Before Task.Delay without context and ConfigureAwait(true)");
+            Debug.WriteLine(SynchronizationContext.Current != null ? "not null" : "null");
             await Task.Delay(100);
         }
     }
