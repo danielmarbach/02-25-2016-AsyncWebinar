@@ -45,7 +45,7 @@ namespace AsyncDolls
         }
 
         [Test]
-        public async Task SequentialVsConcurrent()
+        public async Task Sequential()
         {
             var sequential = Enumerable.Range(0, 4).Select(t => Task.Delay(2500));
 
@@ -53,7 +53,11 @@ namespace AsyncDolls
             {
                 await task;
             }
+        }
 
+        [Test]
+        public async Task Concurrent()
+        {
             var concurrent = Enumerable.Range(0, 4).Select(t => Task.Delay(2500));
             await Task.WhenAll(concurrent);
         }
