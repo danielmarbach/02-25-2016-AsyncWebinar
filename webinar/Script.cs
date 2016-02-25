@@ -47,7 +47,7 @@ namespace AsyncDolls
         [Test]
         public async Task Sequential()
         {
-            var sequential = Enumerable.Range(0, 4).Select(t => Task.Delay(2500));
+            var sequential = Enumerable.Range(0, 4).Select(t => Task.Delay(1500));
 
             foreach (var task in sequential)
             {
@@ -58,7 +58,7 @@ namespace AsyncDolls
         [Test]
         public async Task Concurrent()
         {
-            var concurrent = Enumerable.Range(0, 4).Select(t => Task.Delay(2500));
+            var concurrent = Enumerable.Range(0, 4).Select(t => Task.Delay(1500));
             await Task.WhenAll(concurrent);
         }
 
