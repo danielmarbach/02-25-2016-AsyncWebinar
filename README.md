@@ -19,3 +19,4 @@ The font used in the slides is
 * [Should I expose asynchronous wrappers for synchronous methods?](http://blogs.msdn.com/b/pfxteam/archive/2012/03/24/10287244.aspx)
 * [Task Parallel Library](https://msdn.microsoft.com/en-us/library/dd460717.aspx)
 * [`Task.Factory.StartNew` vs `Task.Run`](http://blogs.msdn.com/b/pfxteam/archive/2011/10/24/10229468.aspx)
+* [ConfigureAwait Rosly Analyzer](https://github.com/Particular/Particular.CodeRules/tree/master/src/Particular.CodeRules/ConfigureAwait)
