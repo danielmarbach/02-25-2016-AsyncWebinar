@@ -100,6 +100,7 @@ namespace AsyncDolls
             Delay(15);
         }
 
+
         static void Delay(int milliseconds)
         {
             DelayAsync(milliseconds).Wait();
@@ -109,5 +110,40 @@ namespace AsyncDolls
         {
             await Task.Delay(milliseconds);
         }
+
+        [Test]
+        public async Task ShortcutTheStatemachine()
+        {
+            await DoesNotShortcut();
+
+            await DoesShortcut();
+        }
+
+        private static async Task DoesNotShortcut()
+        {
+            await Task.Delay(1);
+        }
+
+        private static Task DoesShortcut()
+        {
+            return Task.Delay(1);
+        }
+
+        /*
+private static Task DoesNotShortcut()
+{
+  AsyncScript.\u003CDoesNotShortcut\u003Ed__12 stateMachine;
+  stateMachine.\u003C\u003Et__builder = AsyncTaskMethodBuilder.Create();
+  stateMachine.\u003C\u003E1__state = -1;
+  stateMachine.\u003C\u003Et__builder.Start<AsyncScript.\u003CDoesNotShortcut\u003Ed__12>(ref stateMachine);
+  return stateMachine.\u003C\u003Et__builder.Task;
+}
+private static Task DoesShortcut()
+{
+  return Task.Delay(1);
+}
+
+*/
+
     }
 }
